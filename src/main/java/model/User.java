@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class User {
     private int id;            // maps to users.id
@@ -9,6 +10,10 @@ public class User {
     private String password;   // maps to users.password
     private String role;       // maps to users.role
     private Date birthdate;    // maps to users.birthdate (DATE type in SQL)
+
+    // 🔒 Password reset support
+    private String resetToken;         // maps to users.reset_token
+    private Timestamp resetTokenExpiry; // maps to users.reset_token_expiry
 
     public User() {}
 
@@ -20,7 +25,8 @@ public class User {
         this.birthdate = birthdate;
     }
 
-    // Getters & Setters
+    // -------------------- Getters & Setters --------------------
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -38,4 +44,10 @@ public class User {
 
     public Date getBirthdate() { return birthdate; }
     public void setBirthdate(Date birthdate) { this.birthdate = birthdate; }
+
+    public String getResetToken() { return resetToken; }
+    public void setResetToken(String resetToken) { this.resetToken = resetToken; }
+
+    public Timestamp getResetTokenExpiry() { return resetTokenExpiry; }
+    public void setResetTokenExpiry(Timestamp resetTokenExpiry) { this.resetTokenExpiry = resetTokenExpiry; }
 }

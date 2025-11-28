@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
+    <title>Forgot Password</title>
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- Google Fonts -->
@@ -35,30 +35,18 @@
             padding: 10px 40px;
         }
         .login-container h1 {
-            font-size: 39px;
+            font-size: 32px; /* Slightly smaller for this title */
             font-weight: 800;
             text-align: center;
+            margin-bottom: 10px;
         }
-        .social-icons {
+        .description {
             text-align: center;
+            font-size: 14px;
+            color: #e0e0e0;
             margin-bottom: 20px;
         }
-        .social-icons .icon {
-            display: inline-block;
-            font-size: 20px;
-            color: white;
-            margin: 0 10px;
-            border: 2px solid rgba(255, 255, 255, .2);
-            border-radius: 16px;
-            padding: 7px 10px;
-            transition: 0.3s ease;
-        }
-        .social-icons .icon:hover {
-            color: #dcdcdc;
-        }
-        input,
-        select,
-        button {
+        input, button {
             width: 100%;
             height: 50px;
             margin: 10px 0;
@@ -74,102 +62,73 @@
             border: none;
             cursor: pointer;
             transition: 0.3s ease;
+            font-weight: bold;
         }
         button:hover {
             background-color: #45a049;
         }
         a {
             text-align: center;
-            text-decoration: underline;
-            color: white;
-        }
-        
-        /* --- NEW CSS FOR FORGOT PASSWORD --- */
-        .forgot-link {
-            display: block;
-            text-align: right;
-            margin-top: -5px;
-            margin-bottom: 15px;
-            font-size: 13px;
-            color: #e0e0e0;
             text-decoration: none;
-        }
-        .forgot-link:hover {
             color: white;
+            font-size: 14px;
+        }
+        a:hover {
             text-decoration: underline;
         }
-        /* ----------------------------------- */
-
-        /* Error alert */
-        .error-box {
-            background-color: rgba(255, 0, 0, 0.7);
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+        /* Error/Success Alerts */
+        .error-box, .success-box {
             padding: 10px 15px;
             border-radius: 8px;
             margin-bottom: 10px;
             text-align: center;
             font-weight: bold;
         }
-        /* Success alert */
-        .success-box {
-            background-color: rgba(0, 128, 0, 0.7);
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
+        .error-box { background-color: rgba(255, 0, 0, 0.7); }
+        .success-box { background-color: rgba(0, 128, 0, 0.7); }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <!-- Success Message -->
+        <!-- Success Message (e.g., "Reset link sent!") -->
         <c:if test="${not empty success}">
             <div class="success-box" id="successAlert">
                 ${success}
             </div>
             <c:remove var="success" scope="session"/>
         </c:if>
-        <!-- Error Message -->
+        <!-- Error Message (e.g., "Email not found") -->
         <c:if test="${not empty error}">
             <div class="error-box" id="errorAlert">
                 ${error}
             </div>
         </c:if>
 
-        <!-- LOGIN FORM -->
-        <div class="login-form">
-            <h1>Sign In</h1>
-            <div class="social-icons">
-                <a href="#" class="icon"><i class='bx bxl-google-plus'></i></a>
-                <a href="#" class="icon"><i class='bx bxl-facebook'></i></a>
-                <a href="#" class="icon"><i class='bx bxl-github'></i></a>
-                <a href="#" class="icon"><i class='bx bxl-linkedin'></i></a>
-            </div>
-            <form action="login" method="post">
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                
-                <!-- NEW FORGOT PASSWORD LINK -->
-                <a href="forgotpassword" class="forgot-link">Forgot Password?</a>
-                
-                <button type="submit">Sign In</button>
-            </form>
-            <p>Don't have an account?
-                <a href="register">Sign Up</a>
-            </p>
+        <h1>Reset Password</h1>
+        <p class="description">Enter your email address and we'll send you a link to reset your password.</p>
+        
+        <!-- Form submits to a Servlet (e.g., ForgotPasswordServlet) -->
+        <form action="forgotpassword" method="post">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <button type="submit">Send Reset Link</button>
+        </form>
+
+        <div class="back-link">
+            <a href="login"><i class='bx bx-arrow-back'></i> Back to Sign In</a>
         </div>
     </div>
 
-    <!-- JS FOR AUTO-DISMISS ALERTS -->
+    <!-- JS Auto-dismiss alerts -->
     <script>
         const errorBox = document.getElementById("errorAlert");
         const successBox = document.getElementById("successAlert");
-        if (errorBox) {
-            setTimeout(() => { errorBox.style.display = "none"; }, 3000);
-        }
-        if (successBox) {
-            setTimeout(() => { successBox.style.display = "none"; }, 3000);
-        }
+        if (errorBox) setTimeout(() => { errorBox.style.display = "none"; }, 3000);
+        if (successBox) setTimeout(() => { successBox.style.display = "none"; }, 5000);
     </script>
 </body>
 </html>
